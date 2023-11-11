@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT Interface</title>
+</head>
+<style>
+    body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+}
+
+#sidebar {
+    width: 300px;
+    background-color: #1e1e1e;
+    color: #fff;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: width 0.3s;
+    overflow: hidden;
+}
+
+#sidebar:hover {
+    width: 350px;
+}
+
+#robot-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+#menu-items {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    text-align: left;
+    margin-top: 20px;
+}
+
+.menu-item {
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.menu-item:hover {
+    background-color: #333;
+}
+
+#upgrade-button, #login-button {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%;
+    margin-top: 20px;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+#upgrade-button:hover, #login-button:hover {
+    background-color: #45a049;
+}
+
+#sidebar-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #45a049;
+}
+
+#chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#chat-box {
+    width: 100%;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#chat-header {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+    font-size: 18px;
+    border-bottom: 1px solid #45a049;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#pinned-messages {
+    padding: 15px;
+    background-color: #45a049;
+    color: #fff;
+    border-bottom: 1px solid #4CAF50;
+}
+
+#chat-messages {
+    padding: 15px;
+    overflow-y: scroll;
+    flex: 1;
+}
+
+.user-message, .bot-message {
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    max-width: 80%;
+    word-wrap: break-word;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.user-message {
+    background-color: #f0f0f0;
+}
+
+.bot-message {
+    background-color: #fff;
+    color: #333;
+}
+
+#user-input {
+    width: calc(100% - 30px);
+    padding: 15px;
+    border: none;
+    border-top: 1px solid #ddd;
+    font-size: 16px;
+    outline: none;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+#send-button {
+    width: 30px;
+    height: 30px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 8px;
+}
+ /* Thêm các kiểu CSS để trang trí khung lịch sử */
+ #history {
+            background-color: #45a049;
+            padding: 10px;
+            border: 1px solid #ccc;
+            width: 100%;
+            
+        }
+
+        #history h2 {
+            color: #333;
+        }
+
+        #history ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #history li {
+            margin-bottom: 8px;
+        }
+
+        #history a {
+            text-decoration: none;
+            color: #fff;
+        }
+
+</style>
+<body>
+    <div id="sidebar">
+        <img id="robot-image" src="images/avatar.jpg" alt="robot-image">
+        <div id="sidebar-title">ChatGPT</div>
+        <!-- Sidebar chứa khung lịch sử -->
+<aside id="history">
+    <ul align="center">
+        <!-- Thêm các sự kiện lịch sử với liên kết -->
+        <li><a href="sidebar.html">&plus; New Chat</a></li>
+        <li><a href="#"></a></li>
+        <li><a href="#"></a></li>
+        <!-- Thêm sự kiện khác nếu cần -->
+    </ul>
+</aside>
+
+
+    </br></br></br></br> </br></br></br></br> </br></br></br></br>
+    <hr  width="100%" align="left" />
+        <button id="upgrade-button">&#10023;Upgrade Plan</button>
+        <button href="signup.html" id="login-button">Đăng Nhập</button>
+    </div>
+
+    <div id="chat-container">
+        <div id="chat-box">
+            <div id="chat-header">
+                <span  id="chat-title">GPT Chat</span>
+                <span id="close-chat" onclick="closeChat()">X</span>
+            </div>
+            <div id="pinned-messages">
+                <!-- Pinned messages will be displayed here -->
+            </div>
+            <div id="chat-messages">
+                <!-- Chat messages will be displayed here -->
+            </div>
+            <div>
+                <input type="text" id="user-input" placeholder="Type your message...">
+                <button id="send-button" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+<script>
+    function sendMessage() {
+    var userInput = document.getElementById("user-input").value;
+    var chatMessages = document.getElementById("chat-messages");
+
+    // Display user message
+    chatMessages.innerHTML += '<div class="user-message">' + userInput + '</div>';
+
+    // Simulate GPT response (replace this with actual GPT interaction)
+    var gptResponse = "This is a simulated GPT response.";
+
+    // Display GPT message
+    chatMessages.innerHTML += '<div class="bot-message">' + gptResponse + '</div>';
+
+    // Clear user input
+    document.getElementById("user-input").value = '';
+
+    // Scroll to the bottom of the chat messages
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function closeChat() {
+    var chatHeader = document.getElementById("chat-title");
+    chatHeader.innerHTML = "GPT Chat";
+}
+</script>
+</body>
+</html>
